@@ -3,10 +3,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>jenkins.app.scripts</groupId>
-    <artifactId>restart-app-server</artifactId>
+    <artifactId>stop-multi-app-server</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>shutdown application server</name>
+    <name>stop application servers</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
