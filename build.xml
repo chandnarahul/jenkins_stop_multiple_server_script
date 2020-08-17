@@ -1,0 +1,32 @@
+<project>
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	<property name="jboss.home" value="/home/server/server_base"></property>
+	
+      <target name="deploy">		       
+		<propertyselector property="hostnames" match="server([^\.]*)\.hostname"/>
+        <sortlist property="sorted.hostnames" value="${hostnames}"/>
+		<echo message="${sorted.hostnames}" />
+		<for list="${sorted.hostnames}" param="hostname">
+			<sequential>
+				 <var name="node" value="${@{hostname}}.domain"/>
+				<!-- Stop Server using custom script. -->
+				<echo level="info" message="############################################" />
+				<echo level="info" message="Stopping Application Server on ${node}." />
+				<echo level="info" message="############################################" />
+				
+				<sshexec 
+					host="${node}"
+					username="server" 
+					password="${server.password}"
+					command=". .bash_profile;
+							server stop;"
+					trust="true" />
+				
+				<echo level="info" message="###########################################" />
+				<echo level="info" message="Stopped Application Server on ${node}." />
+				<echo level="info" message="###########################################" />
+				<echo level="info" message="" />
+			</sequential>
+		</for>
+	</target>
+</project>

@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>jenkins.app.scripts</groupId>
+    <artifactId>restart-app-server</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>shutdown application server</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>deploy-artifacts</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <target>
+				<script language="javascript">
+					var logger = project.getBuildListeners( ).firstElement( );
+					logger.setMessageOutputLevel( 0 );
+				</script>
+                                <ant antfile="${basedir}/build.xml">
+                                    <target name="deploy" />
+                                </ant>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+		    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-jsch</artifactId>
+                        <version>1.9.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>ant</groupId>
+                                <artifactId>ant</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <classifier.type>DEV</classifier.type>
+                <server1.hostname>server1</server1.hostname>
+                <server2.hostname>server2</server2.hostname>
+                <server3.hostname>server3</server3.hostname>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
